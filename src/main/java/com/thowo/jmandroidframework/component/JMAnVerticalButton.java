@@ -1,4 +1,4 @@
-package com.thowo.jmframework.component;
+package com.thowo.jmandroidframework.component;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -19,18 +19,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.thowo.jmframework.R;
-import com.thowo.jmframework.db.JMTextViewFiller;
+import com.thowo.jmandroidframework.R;
+import com.thowo.jmjavaframework.JMDataContainer;
+import com.thowo.jmjavaframework.JMFormInterface;
+//import com.thowo.jmandroidframework.db.JMTextViewFiller;
 
 /**
  * Created by jimi on 6/29/2017.
  */
 
-public class JMVerticalButton extends LinearLayout {
+public class JMAnVerticalButton extends LinearLayout implements JMFormInterface {
     private String value;
-    private String format;
     private String font;
-    private int dataType;
 
     private boolean locked;
     private OnClickListener onClickListener;
@@ -38,8 +38,14 @@ public class JMVerticalButton extends LinearLayout {
 
     private TextView tv;
     private ImageView iv;
+    private JMDataContainer dataContainer;
 
-    public JMVerticalButton(Context context, @Nullable AttributeSet attrs) {
+    public JMDataContainer getDataContainer(){
+        return this.dataContainer;
+    }
+
+
+    public JMAnVerticalButton(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         View.inflate(context,R.layout.vertical_button,this);
 
@@ -47,7 +53,7 @@ public class JMVerticalButton extends LinearLayout {
         txtColor=tv.getCurrentTextColor();
 
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.JMView);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.JMAnView);
         int count = typedArray.getIndexCount();
         try{
 
@@ -55,22 +61,18 @@ public class JMVerticalButton extends LinearLayout {
 
                 int attr = typedArray.getIndex(i);
                 // the attr corresponds to the title attribute
-                if(attr == R.styleable.JMView_text) {
-                    value=typedArray.getString(attr);
-                    displayText(null,-1);
-                }else if(attr == R.styleable.JMView_fontTTF) {
-                    font=typedArray.getString(attr);
+                if(attr == R.styleable.JMAnView_text) {
+                    this.value=typedArray.getString(attr);
+                    this.tv.setText(this.value);
+                }else if(attr == R.styleable.JMAnView_fontTTF) {
+                    this.font=typedArray.getString(attr);
                     setFont();
-                }else if(attr == R.styleable.JMView_format) {
-                    format=typedArray.getString(attr);
-                    displayText(null,-1);
-                }else if(attr == R.styleable.JMView_dataType) {
-                    dataType=typedArray.getInt(attr,0);
-                    displayText(null,-1);
-                }else if(attr == R.styleable.JMView_icon) {
-                    iv=findViewById(R.id.topIconVB);
+                }else if(attr == R.styleable.JMAnView_icon) {
+                    this.iv=findViewById(R.id.topIconVB);
                     Drawable dr=typedArray.getDrawable(attr);
-                    iv.setImageDrawable(dr);
+                    this.iv.setImageDrawable(dr);
+                }else if(attr == R.styleable.JMAnView_bg) {
+                    this.setBackgroundResource(typedArray.getResourceId(attr,0));
                 }
 
             }
@@ -96,13 +98,6 @@ public class JMVerticalButton extends LinearLayout {
         this.onClickListener=listener;
     }
 
-    public void displayText(Object value, int dataType){
-        if(value==null)value=this.value;
-        if(dataType<0)dataType=this.dataType;
-        TextView tmp=new TextView(getContext());
-        new JMTextViewFiller(value,tmp,this.format,dataType);
-        tv.setText(tmp.getText());
-    }
 
     public void lock(){
         this.locked=true;
@@ -123,5 +118,27 @@ public class JMVerticalButton extends LinearLayout {
         clickArea.setEnabled(true);
         tv.setTextColor(txtColor);
         //clickArea.setImageResource(R.drawable.glossy_button_selector);
+    }
+
+    @Override
+    public void displayText(String text) {
+        this.value=text;
+        this.tv.setText(text);
+    }
+
+    @Override
+    public void displayError(String errMsg) {
+        this.tv.setText(errMsg);
+        this.value="";
+    }
+
+    @Override
+    public void displayHint(String hint) {
+        this.tv.setHint(hint);
+    }
+
+    @Override
+    public void setDataContainer(JMDataContainer dataContainer) {
+        this.dataContainer=dataContainer;
     }
 }

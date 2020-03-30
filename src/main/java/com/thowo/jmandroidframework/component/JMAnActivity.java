@@ -1,10 +1,9 @@
-package com.thowo.jmframework.component;
+package com.thowo.jmandroidframework.component;
 
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.ContextThemeWrapper;
@@ -13,17 +12,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
-import com.thowo.jmframework.JMFunctions;
-import com.thowo.jmframework.R;
+import com.thowo.jmandroidframework.JMAnFunctions;
+import com.thowo.jmandroidframework.R;
+import com.thowo.jmjavaframework.JMFunctions;
+import com.thowo.jmjavaframework.lang.JMConstMessage;
+
 
 /**
  * Created by jimi on 8/16/2017.
  */
 
-public class JMActivity extends AppCompatActivity{
+public class JMAnActivity extends AppCompatActivity{
     private LinearLayout mContent;
-    private JMLoadingSprite mLoading;
-    private int contentViewR=R.layout.activity_jm;
+    private JMAnLoadingSprite mLoading;
+    private int contentViewR= R.layout.activity_jm;
     private String title;
 
 
@@ -31,7 +33,7 @@ public class JMActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        JMFunctions.update(this);
+        JMAnFunctions.update(this);
 
 
     }
@@ -49,7 +51,7 @@ public class JMActivity extends AppCompatActivity{
     @Override
     public void setContentView(int layoutResID){
         super.setContentView(contentViewR);
-        mLoading=(JMLoadingSprite) findViewById(R.id.jm_loading);
+        mLoading=(JMAnLoadingSprite) findViewById(R.id.jm_loading);
         mContent=(LinearLayout) findViewById(R.id.jm_content);
         LayoutInflater inflater = LayoutInflater.from(getBaseContext());
         inflater.inflate(layoutResID,mContent);
@@ -72,7 +74,7 @@ public class JMActivity extends AppCompatActivity{
     }
 
     public void confirmExit(String msg){
-        confirmExit("Konfirmasi", msg, ContextCompat.getDrawable(this, R.drawable.icon_question), "Ya", "Tidak", new DialogInterface.OnClickListener() {
+        confirmExit(JMFunctions.getMessege(JMConstMessage.MSG_UI+JMConstMessage.MSG_UI_CONFIRM), msg, ContextCompat.getDrawable(this, R.drawable.icon_question), JMFunctions.getMessege(JMConstMessage.MSG_UI+JMConstMessage.MSG_UI_YES), JMFunctions.getMessege(JMConstMessage.MSG_UI+JMConstMessage.MSG_UI_NO), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(which==AlertDialog.BUTTON_POSITIVE)finishIt();
@@ -92,7 +94,7 @@ public class JMActivity extends AppCompatActivity{
     @Override
     public void onResume(){
         super.onResume();
-        JMFunctions.update(this);
+        JMAnFunctions.update(this);
     }
 
 
@@ -101,7 +103,7 @@ public class JMActivity extends AppCompatActivity{
     }
 
 
-    public JMLoadingSprite getLoadingSprite(){
+    public JMAnLoadingSprite getLoadingSprite(){
         return mLoading;
     }
 

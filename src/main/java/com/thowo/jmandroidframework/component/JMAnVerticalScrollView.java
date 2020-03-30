@@ -1,4 +1,4 @@
-package com.thowo.jmframework.component;
+package com.thowo.jmandroidframework.component;
 
 /**
  * Created by jimi on 10/28/2017.
@@ -10,17 +10,17 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
 
-public class JMVerticalScrollView extends ScrollView{
+public class JMAnVerticalScrollView extends ScrollView{
 
-    public JMVerticalScrollView(Context context) {
+    public JMAnVerticalScrollView(Context context) {
         super(context);
     }
 
-    public JMVerticalScrollView(Context context, AttributeSet attrs) {
+    public JMAnVerticalScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public JMVerticalScrollView(Context context, AttributeSet attrs, int defStyle) {
+    public JMAnVerticalScrollView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 

@@ -1,4 +1,4 @@
-package com.thowo.jmframework.component;
+package com.thowo.jmandroidframework.component;
 
 import android.content.DialogInterface;
 import android.os.Environment;
@@ -7,11 +7,11 @@ import com.obsez.android.lib.filechooser.ChooserDialog;
 
 import java.io.File;
 
-public class JMFilePicker {
-    private JMFilePickerListener listener;
+public class JMAnFilePicker {
+    private JMAnFilePickerListener listener;
 
-    public JMFilePicker(JMActivity activity, String filter /* extension */, JMFilePickerListener listener){
-        JMFilePicker me=this;
+    public JMAnFilePicker(JMAnActivity activity, String filter /* extension */, JMAnFilePickerListener listener){
+        JMAnFilePicker me=this;
         setJMFilePickerListener(listener);
         new ChooserDialog().with(activity)
                 .withFilter(false, false, filter)
@@ -44,7 +44,7 @@ public class JMFilePicker {
         listener.onCancel();
     }
 
-    public void setJMFilePickerListener(JMFilePickerListener listener){
+    public void setJMFilePickerListener(JMAnFilePickerListener listener){
         this.listener=listener;
     }
 }

@@ -1,4 +1,4 @@
-package com.thowo.jmframework.component;
+package com.thowo.jmandroidframework.component;
 
 import android.util.Log;
 import android.view.View;
@@ -6,9 +6,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.thowo.jmframework.JMFunctions;
-import com.thowo.jmframework.R;
-import com.thowo.jmframework.db.JMRowObject;
+//import com.thowo.jmandroidframework.JMFunctions;
+import com.thowo.jmandroidframework.R;
+//import com.thowo.jmandroidframework.db.JMRowObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +19,13 @@ import static android.content.ContentValues.TAG;
  * Created by jimi on 7/7/2017.
  */
 
-public class JMListViewCache {
+public class JMAnListViewCache {
     private View baseView;
     private List<View> vg;
     private List<String> vgTag;
 
 
-    public JMListViewCache ( View baseView) {
+    public JMAnListViewCache ( View baseView) {
 
         this.baseView = baseView;
         vg=new ArrayList<View>();

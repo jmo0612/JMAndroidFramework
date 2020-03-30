@@ -1,4 +1,4 @@
-package com.thowo.jmframework.component;
+package com.thowo.jmandroidframework.component;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,23 +8,30 @@ import androidx.appcompat.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.thowo.jmframework.R;
-import com.thowo.jmframework.db.JMTextViewFiller;
+import com.thowo.jmandroidframework.R;
+import com.thowo.jmjavaframework.JMDataContainer;
+import com.thowo.jmjavaframework.JMFormInterface;
+//import com.thowo.jmandroidframework.db.JMTextViewFiller;
 
 /**
  * Created by jimi on 10/26/2017.
  */
 
-public class JMTextView extends AppCompatTextView {
+public class JMAnTextView extends AppCompatTextView implements JMFormInterface {
     private String value;
     private String format;
     private String font;
     private int dataType;
+    private JMDataContainer dataContainer;
 
-    public JMTextView(Context context, @Nullable AttributeSet attrs) {
+    public JMDataContainer getDataContainer(){
+        return this.dataContainer;
+    }
+
+
+    public JMAnTextView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        setDefaultAttribs();
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.JMView);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.JMAnView);
         int count = typedArray.getIndexCount();
         try{
 
@@ -32,18 +39,14 @@ public class JMTextView extends AppCompatTextView {
 
                 int attr = typedArray.getIndex(i);
                 // the attr corresponds to the title attribute
-                if(attr == R.styleable.JMView_text) {
-                    value=typedArray.getString(attr);
-                    displayText(null,-1);
-                }else if(attr == R.styleable.JMView_fontTTF) {
-                    font=typedArray.getString(attr);
-                    setFont();
-                }else if(attr == R.styleable.JMView_format) {
-                    format=typedArray.getString(attr);
-                    displayText(null,-1);
-                }else if(attr == R.styleable.JMView_dataType) {
-                    dataType=typedArray.getInt(attr,0);
-                    displayText(null,-1);
+                if(attr == R.styleable.JMAnView_text) {
+                    this.value=typedArray.getString(attr);
+                    this.setText(this.value);
+                }else if(attr == R.styleable.JMAnView_fontTTF) {
+                    this.font=typedArray.getString(attr);
+                    this.setFont();
+                }else if(attr == R.styleable.JMAnView_bg) {
+                    this.setBackgroundResource(typedArray.getResourceId(attr,0));
                 }
             }
         }
@@ -55,21 +58,31 @@ public class JMTextView extends AppCompatTextView {
         }
     }
 
-    private void setDefaultAttribs(){
-        //setBackgroundResource(R.drawable.glossy_button_selector);
-        //setPadding(20,1,20,1);
-    }
 
     private void setFont(){
         Typeface tf=Typeface.createFromAsset(getContext().getAssets(),"fonts/" + font);
         setTypeface(tf);
     }
 
-    public void displayText(Object value, int dataType){
-        if(value==null)value=this.value;
-        if(dataType<0)dataType=this.dataType;
-        TextView tmp=new TextView(getContext());
-        new JMTextViewFiller(value,tmp,this.format,dataType);
-        this.setText(tmp.getText());
+    @Override
+    public void displayText(String text) {
+        this.value=text;
+        this.setText(text);
+    }
+
+    @Override
+    public void displayError(String errMsg) {
+        this.setText(errMsg);
+        this.value="";
+    }
+
+    @Override
+    public void displayHint(String hint) {
+        this.setHint(hint);
+    }
+
+    @Override
+    public void setDataContainer(JMDataContainer dataContainer) {
+        this.dataContainer=dataContainer;
     }
 }

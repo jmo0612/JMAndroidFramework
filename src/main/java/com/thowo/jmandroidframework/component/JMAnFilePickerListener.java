@@ -1,8 +1,8 @@
-package com.thowo.jmframework.component;
+package com.thowo.jmandroidframework.component;
 
 import java.io.File;
 
-public interface JMFilePickerListener {
+public interface JMAnFilePickerListener {
     void onPicked(File chosen);
     void onCancel();
 }

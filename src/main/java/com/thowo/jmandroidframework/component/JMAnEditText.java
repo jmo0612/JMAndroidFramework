@@ -1,4 +1,4 @@
-package com.thowo.jmframework.component;
+package com.thowo.jmandroidframework.component;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,8 +9,9 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.thowo.jmframework.R;
-import com.thowo.jmframework.db.JMTextViewFiller;
+import com.thowo.jmandroidframework.R;
+import com.thowo.jmjavaframework.JMDataContainer;
+import com.thowo.jmjavaframework.JMFormInterface;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,7 +22,7 @@ import java.util.Date;
  * Created by jimi on 6/29/2017.
  */
 
-public class JMEditText extends AppCompatEditText {
+public class JMAnEditText extends AppCompatEditText implements JMFormInterface {
     private boolean isDate;
     private Context ctx;
     private String value;
@@ -29,12 +30,18 @@ public class JMEditText extends AppCompatEditText {
     private int dataType;
     private String font;
     private String dateErrMsg;
+    private JMDataContainer dataContainer;
 
-    public JMEditText(Context context, AttributeSet attrs) {
+    public JMDataContainer getDataContainer(){
+        return this.dataContainer;
+    }
+
+
+    public JMAnEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         ctx=context;
         setDefaultAttribs();
-        TypedArray typedArray = context.obtainStyledAttributes(attrs,R.styleable.JMEditText);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs,R.styleable.JMAnView);
         int count = typedArray.getIndexCount();
         try{
 
@@ -42,23 +49,14 @@ public class JMEditText extends AppCompatEditText {
 
                 int attr = typedArray.getIndex(i);
                 // the attr corresponds to the title attribute
-                if(attr == R.styleable.JMEditText_isDate) {
-                    isDate=typedArray.getBoolean(attr, false);
-                    setAsDate();
-                }else if(attr == R.styleable.JMEditText_dateErrorMsg) {
-                    dateErrMsg=typedArray.getString(attr);
-                }else if(attr == R.styleable.JMView_text) {
+                if(attr == R.styleable.JMAnView_text) {
                     value=typedArray.getString(attr);
-                    displayText(null,-1);
-                }else if(attr == R.styleable.JMView_fontTTF) {
+                    this.setText(value);
+                }else if(attr == R.styleable.JMAnView_fontTTF) {
                     font=typedArray.getString(attr);
                     setFont();
-                }else if(attr == R.styleable.JMView_format) {
-                    format=typedArray.getString(attr);
-                    displayText(null,-1);
-                }else if(attr == R.styleable.JMView_dataType) {
-                    dataType=typedArray.getInt(attr,0);
-                    displayText(null,-1);
+                }else if(attr == R.styleable.JMAnView_bg) {
+                    this.setBackgroundResource(typedArray.getResourceId(attr,0));
                 }
             }
         }
@@ -70,9 +68,6 @@ public class JMEditText extends AppCompatEditText {
         }
     }
 
-    private void setAsDate(){
-        validateEdtDate();
-    }
 
     private void setDefaultAttribs(){
         setBackgroundResource(R.drawable.text_box);
@@ -83,145 +78,26 @@ public class JMEditText extends AppCompatEditText {
         setTypeface(tf);
     }
 
-    public void validateEdtDate(){
-        addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            private String validDate(String dt){
-                return this.workingDate(this.getTgl(dt),this.getBln(dt),this.getThn(dt));
-            }
-
-
-
-            private String getTgl(String dt){
-                String ret="";
-                for(int i=0; i<dt.length();i++){
-                    String tmp=dt.substring(i,i+1);
-                    if(tmp=="/" || tmp=="-"){
-                        break;
-                    }else{
-                        ret+=tmp;
-                    }
-                }
-                return ret;
-            }
-
-            private String getBln(String dt){
-                String ret="";
-                boolean start=false;
-                for(int i=0;i<dt.length();i++){
-                    String tmp=dt.substring(i,i+1);
-                    if(start){
-                        if(tmp=="/" || tmp=="-"){
-                            break;
-                        }else{
-                            ret+=tmp;
-                        }
-                    }else{
-                        if(tmp=="/" || tmp=="-"){
-                            start=true;
-                        }
-                    }
-                }
-                return ret;
-            }
-
-            private String getThn(String dt){
-                String ret="";
-                int start=0;
-                for(int i=0;i<dt.length();i++){
-                    String tmp=dt.substring(i,i+1);
-                    if(start==1){
-                        if(tmp=="/" || tmp=="-"){
-                            break;
-                        }else{
-                            ret+=tmp;
-                        }
-                    }else{
-                        if(tmp=="/" || tmp=="-"){
-                            start++;
-                        }
-                    }
-                }
-                return ret;
-            }
-
-            private String workingDate(String tgl, String bln, String thn){
-                String ret="";
-                if(tgl!="" && bln!="" && thn!=""){
-                    ret=tgl+"/"+bln+"/"+thn;
-                }else{
-                    if(tgl!="" && bln!=""){
-                        ret=tgl+"/"+bln;
-                    }else{
-                        if(tgl!=""){
-                            ret=tgl;
-                        }
-                    }
-                }
-                return ret;
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //edt.setText(working);
-                //edt.setSelection(working.length());
-                String workingStr=this.validDate(getText().toString());
-                //String workingStr=edt.getText().toString();
-
-                boolean isValid=isThisDateValid(workingStr,"dd/MM/yyyy");
-
-                if (!isValid) {
-                    setError(dateErrMsg + android.text.format.DateFormat.format("dd/MM/yyyy", Calendar.getInstance().getTime()));
-                } else {
-                    setError(null);
-                }
-
-
-                if(!getText().toString().equals(workingStr)){
-                    setText(workingStr);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+    @Override
+    public void displayText(String text) {
+        this.value=text;
+        this.setText(text);
     }
 
-    public boolean isThisDateValid(String dateToValidate, String dateFromat){
-
-        if(dateToValidate == null){
-            return false;
-        }
-
-        SimpleDateFormat sdf = new SimpleDateFormat(dateFromat);
-        sdf.setLenient(false);
-
-        try {
-
-            //if not valid, it will throw ParseException
-            Date date = sdf.parse(dateToValidate);
-
-        } catch (ParseException e) {
-
-            e.printStackTrace();
-            return false;
-        }
-
-        return true;
+    @Override
+    public void displayError(String errMsg) {
+        this.setText(errMsg);
+        this.value="";
     }
 
-    public void displayText(Object value, int dataType){
-        if(value==null)value=this.value;
-        if(dataType<0)dataType=this.dataType;
-        TextView tmp=new TextView(getContext());
-        new JMTextViewFiller(value,tmp,this.format,dataType);
-        this.setText(tmp.getText());
+    @Override
+    public void displayHint(String hint) {
+        this.setHint(hint);
     }
 
+    @Override
+    public void setDataContainer(JMDataContainer dataContainer) {
+        this.dataContainer=dataContainer;
+    }
 }

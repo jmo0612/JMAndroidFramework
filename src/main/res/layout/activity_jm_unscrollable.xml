@@ -9,11 +9,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </LinearLayout>
-    <com.thowo.jmframework.component.JMLoadingSprite
+    <com.thowo.jmandroidframework.component.JMAnLoadingSprite
         android:id="@+id/jm_loading"
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.thowo.jmframework.component.JMLoadingSprite>
+    </com.thowo.jmandroidframework.component.JMAnLoadingSprite>
 </FrameLayout>

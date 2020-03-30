@@ -1,4 +1,4 @@
-package com.thowo.jmframework.component;
+package com.thowo.jmandroidframework.component;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,8 +11,10 @@ import android.widget.RelativeLayout;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
-import com.thowo.jmframework.JMFunctions;
-import com.thowo.jmframework.R;
+import com.thowo.jmandroidframework.R;
+import com.thowo.jmjavaframework.JMDataContainer;
+import com.thowo.jmjavaframework.JMFormInterface;
+import com.thowo.jmjavaframework.JMFunctions;
 
 import java.io.File;
 
@@ -23,22 +25,31 @@ import jp.wasabeef.picasso.transformations.MaskTransformation;
  * Created by jimi on 10/30/2017.
  */
 
-public class JMImageFrame extends RelativeLayout {
+public class JMAnImageFrame extends RelativeLayout implements JMFormInterface {
+    private String path;
+    private Uri uri;
+
     private int drawDef;
     private int drawSrc;
     private int drawFront;
     private int drawMask;
     private ImageView ivMain;
     private ImageView ivFront;
+    private JMDataContainer dataContainer;
+
+    public JMDataContainer getDataContainer(){
+        return this.dataContainer;
+    }
 
 
-    public JMImageFrame(Context context, AttributeSet attrs) {
+
+    public JMAnImageFrame(Context context, AttributeSet attrs) {
         super(context, attrs);
         View.inflate(context,R.layout.image_container_jm,this);
 
         if(!setDefaultAttribs())return;
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.JMImageFrame);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.JMAnImageFrame);
         int count = typedArray.getIndexCount();
         try{
 
@@ -46,15 +57,28 @@ public class JMImageFrame extends RelativeLayout {
 
                 int attr = typedArray.getIndex(i);
                 // the attr corresponds to the title attribute
-                if(attr == R.styleable.JMImageFrame_defImg) {
-                    drawDef=typedArray.getResourceId(attr,0);
-                }else if(attr == R.styleable.JMImageFrame_srcImg) {
-                    drawSrc=typedArray.getResourceId(attr,0);
-                }else if(attr == R.styleable.JMImageFrame_frontImg) {
-                    drawFront=typedArray.getResourceId(attr,0);
-                    ivFront.setImageDrawable(typedArray.getDrawable(attr));
-                }else if(attr == R.styleable.JMImageFrame_maskImg) {
-                    drawMask=typedArray.getResourceId(attr,0);
+                if(attr == R.styleable.JMAnImageFrame_defImg) {
+                    this.drawDef=typedArray.getResourceId(attr,0);
+                    this.loadImage();
+                }else if(attr == R.styleable.JMAnImageFrame_srcImg) {
+                    this.drawSrc=typedArray.getResourceId(attr,0);
+                    this.loadImage();
+                }else if(attr == R.styleable.JMAnImageFrame_frontImg) {
+                    this.drawFront=typedArray.getResourceId(attr,0);
+                    this.ivFront.setImageDrawable(typedArray.getDrawable(attr));
+                    this.loadImage();
+                }else if(attr == R.styleable.JMAnImageFrame_maskImg) {
+                    this.drawMask=typedArray.getResourceId(attr,0);
+                    this.loadImage();
+                }else if(attr == R.styleable.JMAnImageFrame_uri) {
+                    String u=typedArray.getString(attr);
+                    this.uri=Uri.parse(u);
+                    this.loadImage(this.uri);
+                }else if(attr == R.styleable.JMAnView_text) {
+                    this.path=typedArray.getString(attr);
+                    this.loadImage(this.path);
+                }else if(attr == R.styleable.JMAnView_bg) {
+                    this.setBackgroundResource(typedArray.getResourceId(attr,0));
                 }
             }
         }
@@ -111,4 +135,24 @@ public class JMImageFrame extends RelativeLayout {
         }
     }
 
+    @Override
+    public void displayText(String text) {
+        this.path=text;
+        loadImage(this.path);
+    }
+
+    @Override
+    public void displayError(String errMsg) {
+
+    }
+
+    @Override
+    public void displayHint(String hint) {
+
+    }
+
+    @Override
+    public void setDataContainer(JMDataContainer dataContainer) {
+        this.dataContainer=dataContainer;
+    }
 }

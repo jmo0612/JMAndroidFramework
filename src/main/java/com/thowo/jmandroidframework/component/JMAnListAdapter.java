@@ -1,4 +1,4 @@
-package com.thowo.jmframework.component;
+package com.thowo.jmandroidframework.component;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,9 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.thowo.jmframework.JMFunctions;
-import com.thowo.jmframework.R;
-import com.thowo.jmframework.db.JMRowObject;
+//import com.thowo.jmandroidframework.JMFunctions;
+import com.thowo.jmandroidframework.R;
+import com.thowo.jmjavaframework.JMFunctions;
+import com.thowo.jmjavaframework.db.JMResultSet;
+//import com.thowo.jmandroidframework.db.JMRowObject;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -25,13 +27,13 @@ import static android.content.ContentValues.TAG;
  * Created by jimi on 7/7/2017.
  */
 
-public class JMListAdapter extends ArrayAdapter<JMRowObject> {
+public class JMAnListAdapter extends ArrayAdapter<JMResultSet> {
     private int resource;
     private LayoutInflater inflater;
     private Context context;
     private String imagePath;
 
-    public JMListAdapter ( Context ctx, int resourceId, List objects, String imgPath ) {
+    public JMAnListAdapter ( Context ctx, int resourceId, List objects, String imgPath ) {
 
         super( ctx, resourceId, objects );
         resource = resourceId;
@@ -46,13 +48,13 @@ public class JMListAdapter extends ArrayAdapter<JMRowObject> {
 
         /* create a new view of my layout and inflate it in the row */
 
-        JMFunctions.trace(position);
+        JMFunctions.trace(""+position);
 
-        JMListViewCache viewCache;
+        JMAnListViewCache viewCache;
 
-        JMRowObject cur= getItem(position);
+        JMResultSet cur= getItem(position);
 
-        JMRowObjectListView rObj=new JMRowObjectListView(cur);
+        JMAnResultSetListView rObj=new JMAnResultSetListView(cur);
 
 
         if ( convertView == null ) {
@@ -65,12 +67,12 @@ public class JMListAdapter extends ArrayAdapter<JMRowObject> {
                 convertView.setBackgroundResource(R.drawable.glossy_button_selector);
             }
 
-            viewCache = new JMListViewCache(convertView);
+            viewCache = new JMAnListViewCache(convertView);
 
             convertView.setTag( viewCache );
         }
         else {
-            viewCache = ( JMListViewCache ) convertView.getTag();
+            viewCache = ( JMAnListViewCache ) convertView.getTag();
             convertView=(RelativeLayout)viewCache.getViewBase();
         }
 

@@ -1,4 +1,4 @@
-package com.thowo.jmframework.component;
+package com.thowo.jmandroidframework.component;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,26 +8,25 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.thowo.jmframework.R;
-import com.thowo.jmframework.db.JMTextViewFiller;
+import com.thowo.jmandroidframework.R;
+//import com.thowo.jmandroidframework.db.JMTextViewFiller;
 
 /**
  * Created by jimi on 6/30/2017.
  */
 
-public class JMLoadingSprite extends FrameLayout {
+public class JMAnLoadingSprite extends FrameLayout {
     private String value;
-    private String format;
     private String font;
-    private int dataType;
     private TextView tv;
 
-    public JMLoadingSprite(Context context, AttributeSet attrs) {
+
+    public JMAnLoadingSprite(Context context, AttributeSet attrs) {
         super(context, attrs);
         View.inflate(context, R.layout.loading_sprite,this);
         tv=(TextView) findViewById(R.id.messageLS);
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.JMView);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.JMAnView);
         int count = typedArray.getIndexCount();
         try{
 
@@ -35,18 +34,14 @@ public class JMLoadingSprite extends FrameLayout {
 
                 int attr = typedArray.getIndex(i);
                 // the attr corresponds to the title attribute
-                if(attr == R.styleable.JMView_text) {
-                    value=typedArray.getString(attr);
-                    displayText(null,-1);
-                }else if(attr == R.styleable.JMView_fontTTF) {
-                    font=typedArray.getString(attr);
+                if(attr == R.styleable.JMAnView_text) {
+                    this.value=typedArray.getString(attr);
+                    this.tv.setText(this.value);
+                }else if(attr == R.styleable.JMAnView_fontTTF) {
+                    this.font=typedArray.getString(attr);
                     setFont();
-                }else if(attr == R.styleable.JMView_format) {
-                    format=typedArray.getString(attr);
-                    displayText(null,-1);
-                }else if(attr == R.styleable.JMView_dataType) {
-                    dataType=typedArray.getInt(attr,0);
-                    displayText(null,-1);
+                }else if(attr == R.styleable.JMAnView_bg) {
+                    this.setBackgroundResource(typedArray.getResourceId(attr,0));
                 }
 
             }
@@ -61,8 +56,8 @@ public class JMLoadingSprite extends FrameLayout {
     }
 
     private void setFont(){
-        Typeface tf=Typeface.createFromAsset(getContext().getAssets(),"fonts/" + font);
-        tv.setTypeface(tf);
+        Typeface tf=Typeface.createFromAsset(getContext().getAssets(),"fonts/" + this.font);
+        this.tv.setTypeface(tf);
     }
 
     public void hideLoading(){
@@ -74,11 +69,11 @@ public class JMLoadingSprite extends FrameLayout {
         this.setVisibility(VISIBLE);
         this.invalidate();
     }
-    public void displayText(Object value, int dataType){
-        if(value==null)value=this.value;
-        if(dataType<0)dataType=this.dataType;
-        TextView tmp=new TextView(getContext());
-        new JMTextViewFiller(value,tmp,this.format,dataType);
-        tv.setText(tmp.getText());
+    public void showLoading(String text){
+        this.setText(text);
+        this.showLoading();
+    }
+    public void setText(String text){
+        this.tv.setText(text);
     }
 }

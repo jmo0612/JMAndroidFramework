@@ -1,37 +1,34 @@
-package com.thowo.jmframework.component;
+package com.thowo.jmandroidframework.component;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import androidx.appcompat.widget.AppCompatButton;
 import android.util.AttributeSet;
-import android.widget.Button;
-import android.widget.TextView;
 
-import com.thowo.jmframework.R;
-import com.thowo.jmframework.db.JMTextViewFiller;
+import com.thowo.jmandroidframework.R;
+import com.thowo.jmjavaframework.JMDataContainer;
+import com.thowo.jmjavaframework.JMFormInterface;
 
-import java.io.IOException;
-import java.util.Locale;
 
 /**
  * Created by jimi on 6/29/2017.
  */
 
 
-public class JMButton extends AppCompatButton {
+public class JMAnButton extends AppCompatButton implements JMFormInterface {
     private String value;
-    private String format;
     private String font;
-    private int dataType;
+    private JMDataContainer dataContainer;
 
-    public JMButton(Context context, AttributeSet attrs) {
+    public JMDataContainer getDataContainer(){
+        return this.dataContainer;
+    }
+
+    public JMAnButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         setDefaultAttribs();
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.JMView);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.JMAnView);
         int count = typedArray.getIndexCount();
         try{
 
@@ -39,18 +36,14 @@ public class JMButton extends AppCompatButton {
 
                 int attr = typedArray.getIndex(i);
                 // the attr corresponds to the title attribute
-                if(attr == R.styleable.JMView_text) {
+                if(attr == R.styleable.JMAnView_text) {
                     value=typedArray.getString(attr);
-                    displayText(null,-1);
-                }else if(attr == R.styleable.JMView_fontTTF) {
+                    this.setText(value);
+                }else if(attr == R.styleable.JMAnView_fontTTF) {
                     font=typedArray.getString(attr);
                     setFont();
-                }else if(attr == R.styleable.JMView_format) {
-                    format=typedArray.getString(attr);
-                    displayText(null,-1);
-                }else if(attr == R.styleable.JMView_dataType) {
-                    dataType=typedArray.getInt(attr,0);
-                    displayText(null,-1);
+                }else if(attr == R.styleable.JMAnView_bg) {
+                    this.setBackgroundResource(typedArray.getResourceId(attr,0));
                 }
             }
         }
@@ -72,11 +65,25 @@ public class JMButton extends AppCompatButton {
         setTypeface(tf);
     }
 
-    public void displayText(Object value, int dataType){
-        if(value==null)value=this.value;
-        if(dataType<0)dataType=this.dataType;
-        TextView tmp=new TextView(getContext());
-        new JMTextViewFiller(value,tmp,this.format,dataType);
-        this.setText(tmp.getText());
+    @Override
+    public void displayText(String text) {
+        this.value=text;
+        this.setText(text);
+    }
+
+    @Override
+    public void displayError(String errMsg) {
+        this.setText(errMsg);
+        this.value="";
+    }
+
+    @Override
+    public void displayHint(String hint) {
+        this.setHint(hint);
+    }
+
+    @Override
+    public void setDataContainer(JMDataContainer dataContainer) {
+        this.dataContainer=dataContainer;
     }
 }
