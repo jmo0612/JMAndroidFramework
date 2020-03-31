@@ -31,25 +31,45 @@ public class JMAnAsyncLoaderDefault implements JMAsyncListener {
 
     @Override
     public void onJMStart(String id) {
-        //this.loadingSprite.setText(this.getMessage(id, JMConstMessage.MSG_ASYNC_STARTED));
-        this.activity.getLoadingSprite().showLoading(this.getMessage(id, JMConstMessage.MSG_ASYNC_STARTED));
+        this.activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //this.loadingSprite.setText(this.getMessage(id, JMConstMessage.MSG_ASYNC_STARTED));
+                JMAnAsyncLoaderDefault.this.activity.getLoadingSprite().showLoading(JMAnAsyncLoaderDefault.this.getMessage(id, JMConstMessage.MSG_ASYNC_STARTED));
+            }
+        });
     }
 
     @Override
     public void onJMProcess(String id) {
-        this.activity.getLoadingSprite().setText(this.getMessage(id, JMConstMessage.MSG_ASYNC_PROCESSING));
+        this.activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                JMAnAsyncLoaderDefault.this.activity.getLoadingSprite().setText(JMAnAsyncLoaderDefault.this.getMessage(id, JMConstMessage.MSG_ASYNC_PROCESSING));
+            }
+        });
     }
 
     @Override
     public void onJMComplete(Object result, String id) {
-        this.activity.getLoadingSprite().setText(this.getMessage(id, JMConstMessage.MSG_ASYNC_COMPLETED));
-        this.activity.getLoadingSprite().hideLoading();
+        this.activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                JMAnAsyncLoaderDefault.this.activity.getLoadingSprite().setText(JMAnAsyncLoaderDefault.this.getMessage(id, JMConstMessage.MSG_ASYNC_COMPLETED));
+                JMAnAsyncLoaderDefault.this.activity.getLoadingSprite().hideLoading();
+            }
+        });
     }
 
     @Override
     public void onJMError(String errorMessage, String id) {
-        this.activity.getLoadingSprite().setText(this.getMessage(id, JMConstMessage.MSG_ASYNC_ERROR));
-        JMFunctions.traceAndShow(errorMessage);
-        this.activity.getLoadingSprite().hideLoading();
+        this.activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                JMAnAsyncLoaderDefault.this.activity.getLoadingSprite().setText(JMAnAsyncLoaderDefault.this.getMessage(id, JMConstMessage.MSG_ASYNC_ERROR));
+                JMFunctions.traceAndShow(errorMessage);
+                JMAnAsyncLoaderDefault.this.activity.getLoadingSprite().hideLoading();
+            }
+        });
     }
 }

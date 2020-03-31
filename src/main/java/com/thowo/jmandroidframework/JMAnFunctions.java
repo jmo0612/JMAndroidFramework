@@ -33,11 +33,13 @@ public class JMAnFunctions {
 
     public static File copyResourceToFileDir(int resId, String newName, boolean replace){
         File ret=null;
-        String destFileName=current.getFilesDir().getAbsolutePath()+newName;
+        String destFileName=current.getExternalFilesDir(null).getAbsolutePath()+"/"+newName;
+        JMFunctions.trace(destFileName);
         ret=new File(destFileName);
 
         boolean copy=replace || !JMFunctions.fileExist(ret);
         if(copy){
+            if(!JMFunctions.fileExist(ret))JMFunctions.createFile(ret);
             InputStream tmp=current.getApplicationContext().getResources().openRawResource(resId);
             try {
                 OutputStream outputStream=new FileOutputStream(ret);
