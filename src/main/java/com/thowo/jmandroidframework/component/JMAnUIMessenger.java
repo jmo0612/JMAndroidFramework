@@ -19,4 +19,14 @@ public class JMAnUIMessenger implements JMUIListener {
         Log.d(TAG, "trace: "+message);
         JMAnFunctions.showMessage(message);
     }
+
+    @Override
+    public void errorBox(String message) {
+
+    }
+
+    @Override
+    public int confirmBoxYN(String title, String message, String yes, String no, boolean defaultNo) {
+        return 0;
+    }
 }

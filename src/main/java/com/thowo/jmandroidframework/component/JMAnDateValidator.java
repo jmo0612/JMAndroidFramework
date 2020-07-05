@@ -42,12 +42,14 @@ public class JMAnDateValidator implements TextWatcher {
             //this.dataContainer.setValueAsString((String) s);
             return;
         }
+        this.dataContainer.setValueString(s.toString(),true,true);
 
+        /*
         if(this.time){
             this.dataContainer.setValueAsJMDateTime24(new JMDate(JMFormatCollection.dateFromString(workingStr,"yyyy/MM/dd HH:mm:ss")),false);
         }else{
             this.dataContainer.setValueAsJMDateTime24(new JMDate(JMFormatCollection.dateFromString(workingStr,"yyyy/MM/dd")),false);
-        }
+        }*/
     }
 
     @Override

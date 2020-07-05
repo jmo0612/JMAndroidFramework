@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.thowo.jmandroidframework.R;
 import com.thowo.jmjavaframework.JMDataContainer;
 import com.thowo.jmjavaframework.JMFormInterface;
+import com.thowo.jmjavaframework.JMInputInterface;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,7 +23,7 @@ import java.util.Date;
  * Created by jimi on 6/29/2017.
  */
 
-public class JMAnEditText extends AppCompatEditText implements JMFormInterface {
+public class JMAnEditText extends AppCompatEditText implements JMInputInterface {
     private boolean isDate;
     private Context ctx;
     private String value;
@@ -79,8 +80,9 @@ public class JMAnEditText extends AppCompatEditText implements JMFormInterface {
     }
 
 
+
     @Override
-    public void displayText(String text) {
+    public void displayText(String text, int JMDataContainerConstantAlign) {
         this.value=text;
         this.setText(text);
     }
@@ -99,5 +101,20 @@ public class JMAnEditText extends AppCompatEditText implements JMFormInterface {
     @Override
     public void setDataContainer(JMDataContainer dataContainer) {
         this.dataContainer=dataContainer;
+    }
+
+    @Override
+    public void setHidden(boolean hidden) {
+
+    }
+
+    @Override
+    public void setValueString(String value) {
+
+    }
+
+    @Override
+    public void setValueObject(Object value) {
+
     }
 }

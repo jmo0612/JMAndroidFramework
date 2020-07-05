@@ -60,22 +60,23 @@ public class JMAnResultSetListView {
             }else if(vTmp.getClass()== JMAnImageFrame.class){
                 JMAnImageFrame imageFrame=(JMAnImageFrame) vTmp;
                 JMDataContainer tmp=imageFrame.getDataContainer();
-                tmp.setValue(this.rs,columnIndex);
+                //tmp.setValueString();
+                //==tmp.setValue(this.rs,columnIndex);
                 //imageFrame.loadImage(rObj.getDBString(columnIndex));
             }else if(vTmp.getClass()==JMAnButton.class){
                 JMAnButton jmView=(JMAnButton) vTmp;
                 JMDataContainer tmp=jmView.getDataContainer();
-                tmp.setValue(this.rs,columnIndex);
+                //==tmp.setValue(this.rs,columnIndex);
                 //jmView.displayText(rObj.getValue(columnIndex),rObj.getDataType(columnIndex));
             }else if(vTmp.getClass()==JMAnEditText.class){
                 JMAnEditText jmView=(JMAnEditText) vTmp;
                 JMDataContainer tmp=jmView.getDataContainer();
-                tmp.setValue(this.rs,columnIndex);
+                //==tmp.setValue(this.rs,columnIndex);
                 //jmView.displayText(rObj.getValue(columnIndex),rObj.getDataType(columnIndex));
             }else if(vTmp.getClass()==JMAnHorizontalButton.class){
                 JMAnHorizontalButton jmView=(JMAnHorizontalButton) vTmp;
                 JMDataContainer tmp=jmView.getDataContainer();
-                tmp.setValue(this.rs,columnIndex);
+                //==tmp.setValue(this.rs,columnIndex);
                 //jmView.displayText(rObj.getValue(columnIndex),rObj.getDataType(columnIndex));
             }else if(vTmp.getClass()==JMAnLoadingSprite.class){
                 JMAnLoadingSprite jmView=(JMAnLoadingSprite) vTmp;
@@ -83,12 +84,12 @@ public class JMAnResultSetListView {
             }else if(vTmp.getClass()==JMAnTextView.class){
                 JMAnTextView jmView=(JMAnTextView) vTmp;
                 JMDataContainer tmp=jmView.getDataContainer();
-                tmp.setValue(this.rs,columnIndex);
+                //==tmp.setValue(this.rs,columnIndex);
                 //jmView.displayText(rObj.getValue(columnIndex),rObj.getDataType(columnIndex));
             }else if(vTmp.getClass()==JMAnVerticalButton.class){
                 JMAnVerticalButton jmView=(JMAnVerticalButton) vTmp;
                 JMDataContainer tmp=jmView.getDataContainer();
-                tmp.setValue(this.rs,columnIndex);
+                //==tmp.setValue(this.rs,columnIndex);
                 //jmView.displayText(rObj.getValue(columnIndex),rObj.getDataType(columnIndex));
             }
         }

@@ -11,13 +11,14 @@ import android.widget.TextView;
 import com.thowo.jmandroidframework.R;
 import com.thowo.jmjavaframework.JMDataContainer;
 import com.thowo.jmjavaframework.JMFormInterface;
+import com.thowo.jmjavaframework.JMInputInterface;
 //import com.thowo.jmandroidframework.db.JMTextViewFiller;
 
 /**
  * Created by jimi on 10/26/2017.
  */
 
-public class JMAnTextView extends AppCompatTextView implements JMFormInterface {
+public class JMAnTextView extends AppCompatTextView implements JMInputInterface {
     private String value;
     private String format;
     private String font;
@@ -64,8 +65,9 @@ public class JMAnTextView extends AppCompatTextView implements JMFormInterface {
         setTypeface(tf);
     }
 
+
     @Override
-    public void displayText(String text) {
+    public void displayText(String text, int JMDataContainerConstantAlign) {
         this.value=text;
         this.setText(text);
     }
@@ -84,5 +86,20 @@ public class JMAnTextView extends AppCompatTextView implements JMFormInterface {
     @Override
     public void setDataContainer(JMDataContainer dataContainer) {
         this.dataContainer=dataContainer;
+    }
+
+    @Override
+    public void setHidden(boolean hidden) {
+
+    }
+
+    @Override
+    public void setValueString(String value) {
+
+    }
+
+    @Override
+    public void setValueObject(Object value) {
+
     }
 }

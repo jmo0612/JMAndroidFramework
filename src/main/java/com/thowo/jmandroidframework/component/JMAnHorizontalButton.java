@@ -17,12 +17,13 @@ import android.widget.TextView;
 import com.thowo.jmandroidframework.R;
 import com.thowo.jmjavaframework.JMDataContainer;
 import com.thowo.jmjavaframework.JMFormInterface;
+import com.thowo.jmjavaframework.JMInputInterface;
 
 /**
  * Created by jimi on 6/29/2017.
  */
 
-public class JMAnHorizontalButton extends LinearLayout implements JMFormInterface {
+public class JMAnHorizontalButton extends LinearLayout implements JMInputInterface {
     private String value;
     private String font;
 
@@ -111,8 +112,9 @@ public class JMAnHorizontalButton extends LinearLayout implements JMFormInterfac
         //clickArea.setImageResource(R.drawable.glossy_button_selector);
     }
 
+
     @Override
-    public void displayText(String text) {
+    public void displayText(String text, int JMDataContainerConstantAlign) {
         this.value=text;
         this.tv.setText(text);
     }
@@ -131,5 +133,20 @@ public class JMAnHorizontalButton extends LinearLayout implements JMFormInterfac
     @Override
     public void setDataContainer(JMDataContainer dataContainer) {
         this.dataContainer=dataContainer;
+    }
+
+    @Override
+    public void setHidden(boolean hidden) {
+
+    }
+
+    @Override
+    public void setValueString(String value) {
+
+    }
+
+    @Override
+    public void setValueObject(Object value) {
+
     }
 }

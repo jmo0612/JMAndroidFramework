@@ -27,13 +27,13 @@ public class JMAnFunctions {
                 .setMessage(msg).show();
     }
 
-    public static void init(File languageExcelFile){
-        JMFunctions.init(languageExcelFile);
+    public static void init(){
+        JMFunctions.init(copyResourceToCacheDir(R.raw.jmlanguagepack,"jmlanguagepack.xls",false),current.getExternalCacheDir().getAbsolutePath(),current.getExternalFilesDir(null).getAbsolutePath(),"en_US");
     }
 
-    public static File copyResourceToFileDir(int resId, String newName, boolean replace){
+    public static File copyResourceToCacheDir(int resId, String newName, boolean replace){
         File ret=null;
-        String destFileName=current.getExternalFilesDir(null).getAbsolutePath()+"/"+newName;
+        String destFileName=current.getExternalCacheDir().getAbsolutePath()+"/"+newName;
         JMFunctions.trace(destFileName);
         ret=new File(destFileName);
 
