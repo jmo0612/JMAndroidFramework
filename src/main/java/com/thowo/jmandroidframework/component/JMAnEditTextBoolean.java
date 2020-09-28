@@ -3,34 +3,25 @@ package com.thowo.jmandroidframework.component;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.util.AttributeSet;
+import android.view.View;
+import android.widget.ArrayAdapter;
 
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.appcompat.widget.AppCompatEditText;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.AttributeSet;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import com.thowo.jmandroidframework.R;
 import com.thowo.jmjavaframework.JMDataContainer;
-import com.thowo.jmjavaframework.JMFormInterface;
 import com.thowo.jmjavaframework.JMFormatCollection;
+import com.thowo.jmjavaframework.JMFunctions;
 import com.thowo.jmjavaframework.JMInputInterface;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-/**
- * Created by jimi on 6/29/2017.
- */
-
-public class JMAnEditText extends AppCompatAutoCompleteTextView implements JMInputInterface {
+public class JMAnEditTextBoolean extends AppCompatAutoCompleteTextView implements JMInputInterface {
     private boolean isDate;
     private Context ctx;
-    private String value;
+    private Boolean value=false;
+    private String strTrue="";
+    private String strFalse="";
     private String format;
     private int dataType;
     private String font;
@@ -40,13 +31,11 @@ public class JMAnEditText extends AppCompatAutoCompleteTextView implements JMInp
     public JMDataContainer getDataContainer(){
         return this.dataContainer;
     }
-
-
-    public JMAnEditText(Context context, AttributeSet attrs) {
+    public JMAnEditTextBoolean(Context context, AttributeSet attrs) {
         super(context, attrs);
         ctx=context;
         setDefaultAttribs();
-        TypedArray typedArray = context.obtainStyledAttributes(attrs,R.styleable.JMAnView);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.JMAnView);
         int count = typedArray.getIndexCount();
         try{
 
@@ -55,8 +44,9 @@ public class JMAnEditText extends AppCompatAutoCompleteTextView implements JMInp
                 int attr = typedArray.getIndex(i);
                 // the attr corresponds to the title attribute
                 if(attr == R.styleable.JMAnView_text) {
-                    value=typedArray.getString(attr);
-                    this.setText(value);
+                    String tmp=typedArray.getString(attr);
+                    value=JMFormatCollection.strToBoolean(tmp,this.strTrue,this.strFalse);
+                    this.setText(JMFormatCollection.booleanToString(value,this.strTrue,this.strFalse));
                 }else if(attr == R.styleable.JMAnView_fontTTF) {
                     font=typedArray.getString(attr);
                     setFont();
@@ -64,9 +54,18 @@ public class JMAnEditText extends AppCompatAutoCompleteTextView implements JMInp
                     this.setBackgroundResource(typedArray.getResourceId(attr,0));
                 }else if(attr == R.styleable.JMAnView_lookup) {
                     String tmp=typedArray.getString(attr);
-                    String[] items= JMFormatCollection.strToArray(tmp,"\\|");
+                    String[] items=JMFormatCollection.strToArray(tmp,"\\|");
                     if(items.length>0){
                         this.setAutoComplete(items);
+                    }
+                }else if(attr == R.styleable.JMAnView_params) {
+                    String tmp=typedArray.getString(attr);
+                    String[] prm=JMFormatCollection.strToArray(tmp,"\\|");
+                    for(int j=0;j<prm.length;j++){
+                        JMFunctions.trace("jumlah: "+prm[j]);
+                    }
+                    if(prm.length==2){
+                        this.updateBooleanString(prm[0],prm[1]);
                     }
                 }
             }
@@ -77,12 +76,31 @@ public class JMAnEditText extends AppCompatAutoCompleteTextView implements JMInp
             // for reuse
             typedArray.recycle();
         }
+        this.setListeners();
     }
     public void setAutoComplete(String[] items) {
         ArrayAdapter<String> tmp= new ArrayAdapter<String>(this.ctx, android.R.layout.simple_dropdown_item_1line, items);
         this.setAdapter(tmp);
     }
-
+    public void updateBooleanString(String strTrue, String strFalse){
+        this.strTrue=strTrue;
+        this.strFalse=strFalse;
+        this.setText(JMFormatCollection.booleanToString(this.value,this.strTrue,this.strFalse));
+    }
+    private void setListeners(){
+        this.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b==true){
+                    JMAnEditTextBoolean.this.setText(JMFormatCollection.booleanToString(JMAnEditTextBoolean.this.value,JMAnEditTextBoolean.this.strTrue,JMAnEditTextBoolean.this.strFalse));
+                    JMAnEditTextBoolean.this.selectAll();
+                }else{
+                    JMAnEditTextBoolean.this.value=JMFormatCollection.strToBoolean(JMAnEditTextBoolean.this.getText().toString(),JMAnEditTextBoolean.this.strTrue,JMAnEditTextBoolean.this.strFalse);
+                    JMAnEditTextBoolean.this.setText(JMFormatCollection.booleanToString(JMAnEditTextBoolean.this.value,JMAnEditTextBoolean.this.strTrue,JMAnEditTextBoolean.this.strFalse));
+                }
+            }
+        });
+    }
     private void setDefaultAttribs(){
         setBackgroundResource(R.drawable.text_box);
         setPadding(20,1,20,1);
@@ -92,40 +110,32 @@ public class JMAnEditText extends AppCompatAutoCompleteTextView implements JMInp
         setTypeface(tf);
     }
 
-
-
     @Override
     public void displayText(String text, int JMDataContainerConstantAlign) {
-        this.value=text;
-        this.setText(text);
+        this.value=JMFormatCollection.strToBoolean(text,this.strTrue,this.strFalse);
+        this.setText(JMFormatCollection.booleanToString(this.value,this.strTrue,this.strFalse));
     }
-
     @Override
     public void displayError(String errMsg) {
         this.setError(errMsg);
-        this.value="";
+        this.value=false;
     }
-
     @Override
     public void displayHint(String hint) {
         this.setHint(hint);
     }
-
     @Override
     public void setDataContainer(JMDataContainer dataContainer) {
         this.dataContainer=dataContainer;
     }
-
     @Override
     public void setHidden(boolean hidden) {
 
     }
-
     @Override
     public void setValueString(String value) {
 
     }
-
     @Override
     public void setValueObject(Object value) {
 

@@ -5,6 +5,8 @@
         <attr name="text" format="string" />
         <attr name="icon" format="reference" />
         <attr name="bg" format="reference" />
+        <attr name="params" format="string" />
+        <attr name="lookup" format="string" />
     </declare-styleable>
     <declare-styleable name="JMAnImageFrame">
         <attr name="srcImg" format="reference" />

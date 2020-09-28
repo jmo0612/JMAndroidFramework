@@ -25,7 +25,6 @@ import com.thowo.jmjavaframework.lang.JMConstMessage;
 public class JMAnActivity extends AppCompatActivity{
     private LinearLayout mContent;
     private JMAnLoadingSprite mLoading;
-    private int contentViewR= R.layout.activity_jm;
     private String title;
 
 
@@ -50,7 +49,7 @@ public class JMAnActivity extends AppCompatActivity{
 
     @Override
     public void setContentView(int layoutResID){
-        super.setContentView(contentViewR);
+        super.setContentView(R.layout.activity_jm);
         mLoading=(JMAnLoadingSprite) findViewById(R.id.jm_loading);
         mContent=(LinearLayout) findViewById(R.id.jm_content);
         LayoutInflater inflater = LayoutInflater.from(getBaseContext());
@@ -58,20 +57,7 @@ public class JMAnActivity extends AppCompatActivity{
     }
 
 
-    public void setContentView(int layoutResID,int titleRes, boolean scrollable){
-        if(scrollable){
-            contentViewR=R.layout.activity_jm;
-        }else{
-            contentViewR=R.layout.activity_jm_unscrollable;
-        }
-        this.title=getString(titleRes);
-        String tmp= getString(R.string.app_name);
-        if(!title.equals("")){
-            tmp+=" - "+title;
-        }
-        setTitle(tmp);
-        setContentView(layoutResID);
-    }
+
 
     public void confirmExit(String msg){
         confirmExit(JMFunctions.getMessege(JMConstMessage.MSG_UI+JMConstMessage.MSG_UI_CONFIRM), msg, ContextCompat.getDrawable(this, R.drawable.icon_question), JMFunctions.getMessege(JMConstMessage.MSG_UI+JMConstMessage.MSG_UI_YES), JMFunctions.getMessege(JMConstMessage.MSG_UI+JMConstMessage.MSG_UI_NO), new DialogInterface.OnClickListener() {

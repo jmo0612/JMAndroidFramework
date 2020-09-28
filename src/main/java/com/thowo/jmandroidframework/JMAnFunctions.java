@@ -2,9 +2,13 @@ package com.thowo.jmandroidframework;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.ContextThemeWrapper;
+import android.widget.Toast;
 
+import com.thowo.jmandroidframework.component.JMAnActivity;
+import com.thowo.jmandroidframework.component.JMAnCodeScanner;
 import com.thowo.jmjavaframework.JMFunctions;
 
 import java.io.File;
@@ -22,9 +26,16 @@ public class JMAnFunctions {
     }
 
     public static void showMessage(final String msg){
-        new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(current,R.style.Theme_AppCompat_Dialog_Alert))
+        JMAnActivity tmp=(JMAnActivity) JMAnFunctions.current;
+        tmp.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(current,R.style.Theme_AppCompat_Dialog_Alert))
                 .setTitle(R.string.app_name)
                 .setMessage(msg).show();
+            }
+        });
+
     }
 
     public static void init(){
@@ -60,5 +71,24 @@ public class JMAnFunctions {
             }
         }
         return ret;
+    }
+
+    public static void startNewActivity(JMAnActivity currentActivity, Class<?> activityClass, int requestCode){
+        Intent intent=new Intent(currentActivity,activityClass);
+        currentActivity.startActivityForResult(intent,requestCode);
+    }
+    public static void startNewActivity(JMAnActivity currentActivity, Class<?> activityClass, int requestCode, Intent intent){
+        currentActivity.startActivityForResult(intent,requestCode);
+    }
+    public static void startNewActivity(JMAnActivity currentActivity, Class<?> activityClass, Intent intent){
+        currentActivity.startActivityForResult(intent,JMAnConst.REQUESTCODE_DEFAULT);
+    }
+    public static void startNewActivity(JMAnActivity currentActivity, Class<?> activityClass){
+        Intent intent=new Intent(currentActivity,activityClass);
+        currentActivity.startActivityForResult(intent,JMAnConst.REQUESTCODE_DEFAULT);
+    }
+
+    public static void scanCode(JMAnActivity currentActivity){
+        startNewActivity(currentActivity,JMAnCodeScanner.class,JMAnConst.REQUESTCODE_SCANCODE);
     }
 }

@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
+
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +25,7 @@ import com.thowo.jmjavaframework.JMInputInterface;
  * Created by jimi on 6/29/2017.
  */
 
-public class JMAnHorizontalButton extends LinearLayout implements JMInputInterface {
+public class JMAnHorizontalButton extends LinearLayoutCompat implements JMInputInterface {
     private String value;
     private String font;
 

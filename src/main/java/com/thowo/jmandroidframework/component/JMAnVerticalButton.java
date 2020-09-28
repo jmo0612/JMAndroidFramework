@@ -10,9 +10,13 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.LinearLayoutCompat;
+
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,7 +33,7 @@ import com.thowo.jmjavaframework.JMInputInterface;
  * Created by jimi on 6/29/2017.
  */
 
-public class JMAnVerticalButton extends LinearLayout implements JMInputInterface {
+public class JMAnVerticalButton extends LinearLayoutCompat implements JMInputInterface {
     private String value;
     private String font;
 
@@ -93,7 +97,7 @@ public class JMAnVerticalButton extends LinearLayout implements JMInputInterface
         tv.setTypeface(tf);
     }
 
-    public void setMyOnClickedListener(View.OnClickListener listener){
+    public void setMyOnClickListener(View.OnClickListener listener){
         ImageView clickArea=findViewById(R.id.clickAreaVB);
         clickArea.setOnClickListener(listener);
         this.onClickListener=listener;
