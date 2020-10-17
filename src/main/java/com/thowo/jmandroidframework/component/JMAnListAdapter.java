@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.thowo.jmandroidframework.R;
 import com.thowo.jmjavaframework.JMFunctions;
 import com.thowo.jmjavaframework.db.JMResultSet;
+import com.thowo.jmjavaframework.table.JMRow;
 //import com.thowo.jmandroidframework.db.JMRowObject;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -27,11 +28,15 @@ import static android.content.ContentValues.TAG;
  * Created by jimi on 7/7/2017.
  */
 
-public class JMAnListAdapter extends ArrayAdapter<JMResultSet> {
+public class JMAnListAdapter extends ArrayAdapter<JMRow> {
     private int resource;
     private LayoutInflater inflater;
     private Context context;
     private String imagePath;
+
+    public static JMAnListAdapter create( Context ctx, int resourceId, List objects, String imgPath ) {
+        return new JMAnListAdapter ( ctx, resourceId, objects, imgPath );
+    }
 
     public JMAnListAdapter ( Context ctx, int resourceId, List objects, String imgPath ) {
 
@@ -52,9 +57,9 @@ public class JMAnListAdapter extends ArrayAdapter<JMResultSet> {
 
         JMAnListViewCache viewCache;
 
-        JMResultSet cur= getItem(position);
+        JMRow cur= getItem(position);
 
-        JMAnResultSetListView rObj=new JMAnResultSetListView(cur);
+        JMAnRowListView rObj=new JMAnRowListView(cur);
 
 
         if ( convertView == null ) {
