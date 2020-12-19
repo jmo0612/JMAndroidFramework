@@ -39,7 +39,6 @@ public class JMAnListAdapter extends ArrayAdapter<JMRow> {
     }
 
     public JMAnListAdapter ( Context ctx, int resourceId, List objects, String imgPath ) {
-
         super( ctx, resourceId, objects );
         resource = resourceId;
         inflater = LayoutInflater.from( ctx );

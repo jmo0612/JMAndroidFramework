@@ -38,8 +38,8 @@ public class JMAnFunctions {
 
     }
 
-    public static void init(){
-        JMFunctions.init(copyResourceToCacheDir(R.raw.jmlanguagepack,"jmlanguagepack.xls",false),current.getExternalCacheDir().getAbsolutePath(),current.getExternalFilesDir(null).getAbsolutePath(),"en_US");
+    public static void init(String localeId){
+        JMFunctions.init(copyResourceToCacheDir(R.raw.jmlanguagepack,"jmlanguagepack.xls",false),current.getExternalCacheDir().getAbsolutePath(),current.getExternalFilesDir(null).getAbsolutePath(),localeId);
     }
 
     public static File copyResourceToCacheDir(int resId, String newName, boolean replace){
