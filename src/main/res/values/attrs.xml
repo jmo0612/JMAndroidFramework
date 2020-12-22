@@ -15,5 +15,14 @@
         <attr name="frontImg" format="reference" />
         <attr name="uri" format="string" />
     </declare-styleable>
+    <declare-styleable name="JMAnCustomButton">
+        <attr name="frame" format="reference" />
+        <attr name="framePressed" format="reference" />
+        <attr name="frameDisabled" format="reference" />
+        <attr name="isFrontFrame" format="boolean" />
+        <attr name="isToggle" format="boolean" />
+        <attr name="selected" format="boolean" />
+        <attr name="fontSize" format="dimension" />
+    </declare-styleable>
 
 </resources>
