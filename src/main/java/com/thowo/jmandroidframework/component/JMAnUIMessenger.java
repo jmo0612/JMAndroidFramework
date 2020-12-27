@@ -11,12 +11,12 @@ public class JMAnUIMessenger implements JMUIListener {
 
     @Override
     public void trace(String message) {
-        Log.d(TAG, "trace: "+message);
+        Log.d(TAG, "jmtrace: "+message);
     }
 
     @Override
     public void messageBox(String message) {
-        Log.d(TAG, "trace: "+message);
+        Log.d(TAG, "jmtrace: "+message);
         JMAnFunctions.showMessage(message);
     }
 

@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="JMAnFrame">
+        <attr name="frameBack" format="reference" />
+        <attr name="frameBackPressed" format="reference" />
+        <attr name="frameBackDisabled" format="reference" />
+        <attr name="frameFront" format="reference" />
+        <attr name="frameFrontPressed" format="reference" />
+        <attr name="frameFrontDisabled" format="reference" />
+        <attr name="isToggle" format="boolean" />
+        <attr name="selected" format="boolean" />
+    </declare-styleable>
     <declare-styleable name="JMAnView">
         <attr name="fontTTF" format="string" />
+        <attr name="fontSize" format="dimension" />
         <attr name="text" format="string" />
         <attr name="icon" format="reference" />
+        <attr name="iconSize" format="dimension" />
         <attr name="bg" format="reference" />
         <attr name="params" format="string" />
         <attr name="lookup" format="string" />
@@ -16,13 +28,13 @@
         <attr name="uri" format="string" />
     </declare-styleable>
     <declare-styleable name="JMAnCustomButton">
-        <attr name="frame" format="reference" />
-        <attr name="framePressed" format="reference" />
-        <attr name="frameDisabled" format="reference" />
-        <attr name="isFrontFrame" format="boolean" />
-        <attr name="isToggle" format="boolean" />
-        <attr name="selected" format="boolean" />
-        <attr name="fontSize" format="dimension" />
+        <attr name="textPadding" format="dimension" />
+        <attr name="contentPadding" format="dimension" />
+        <attr name="fontTTF2" format="string" />
+        <attr name="fontSize2" format="dimension" />
+        <attr name="text2" format="string" />
+        <attr name="icon2" format="reference" />
+        <attr name="iconSize2" format="dimension" />
     </declare-styleable>
 
 </resources>
